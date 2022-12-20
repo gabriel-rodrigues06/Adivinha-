@@ -1,0 +1,54 @@
+<DOCTYP HTML5>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Jogo de advinhação</title>
+</head>
+  
+<body>
+<h1>Adivinhe o número!</h1>
+  
+<p>Selecionamos um número aleatório entre 1 e 10. Veja se consegue adivinhar.</p>
+  
+<div class="form">
+  <label for="euacho">Tente a sorte: </label>
+  <input type="text" id="euacho" class="euacho">
+  <input type="submit" value="Enviar palpite" class="enviarchute" id="enviarchute">
+</div>
+  
+<script>
+  
+    // gera um valor aleátorio
+    var numberRandom = Math.floor(Math.random() * 10 + 1);
+      
+    // conta o nmero de palpites
+    // so para palpite correto
+    var guess = 1;
+      
+    document.getElementById("enviarchute").onclick = function(){
+      
+   // numero do palpite do usuario   
+   var chute = document.getElementById("euacho").value;
+  
+   if(chute == numberRandom){    
+       alert("PRABÉNS!!! VOCÊ ADIVINHOU O NÚMERO CERTO PELA "
+               + guess + "° VEZ ");
+   }
+   
+   
+   else if(chute > numberRandom)
+   /*se o número chutadl for maior que o número real*/ 
+   {    
+       guess++;
+       alert("OOPS DESCULPA!! TENTE UM NÚMERO MENOR");
+   }
+   
+   else
+   {
+       guess++;
+       alert("OOPS DESCULPA!! TENTE UM NÚMERO MAIOR")
+   }
+}
+</script>
+</body>
+</html>
