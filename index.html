@@ -1,61 +1,105 @@
 <DOCTYP HTML5>
-<html>
-<head>
- <meta charset="utf-8">
- <title>Jogo de advinhação</title>
-</head>
-  
-<body>
-<h1>Adivinhe o número!</h1>
-  
-<p>Selecionamos um número aleatório entre 1 e 10. Veja se consegue adivinhar.</p>
-  
-<div class="form">
-  <p>pontuação: <span id="pontuacao">0</span></p>
-  <p>Erros:<span id="erros">0</span></p>
-  <label for="euacho">Tente a sorte: </label>
-  <input type="text" id="euacho" class="euacho" placeholder="ex:9">
-  <input type="submit" value="Enviar palpite" class="enviarchute" id="enviarchute">
-  <p id="resultado"></p>
-</div>
-  
-<script>
-  
-    // gera um valor aleátorio
-    var numberRandom = Math.floor(Math.random() * 10 + 1);
-      
-    // conta o nmero de palpites
-    // so para palpite correto
-    var guess = 1;
-    var pontuacao = 0;
-      
-    document.getElementById("enviarchute").onclick = function(){
-      
-   // numero do palpite do usuario   
-   var chute = document.getElementById("euacho").value;
-  
-   if(chute == numberRandom){ 
-   
-   ++pontuacao;
-   
-   document.getElementById("pontuacao").innerHTML
-   = pontuacao ;
-   }
-   
-   
-   else if(chute > numberRandom)
-   /*se o número chutadl for maior que o número real*/ 
-   {    
-       guess++;
-       document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MENOR";
-   }
-   
-   else
-   {
-       guess++;
-       document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MAIOR"
-   }
-}
-</script>
-</body>
-</html>
+  <html>
+
+    <head>
+      <meta charset="utf-8">
+      <title>Jogo de advinhação</title>
+    </head>
+
+    <body>
+      <h1>Adivinhe o número!</h1>
+
+      <p>Selecionamos um número aleatório entre 1 e 10. Veja se consegue adivinhar.</p>
+
+      <div class="form">
+        <p>pontuação: <span id="pontuacao">0</span></p>
+        <p>Erros:<span id="erros">0</span></p>
+        <label for="euacho">Tente a sorte: </label>
+        <input type="text" id="euacho" class="euacho" placeholder="ex:9">
+        <input type="submit" value="Enviar palpite" class="enviarchute" id="enviarchute">
+        <p id="resultado"></p>
+        <button id="novoJogo" style="display: none;" onclick="fnNovoJogo()">Novo jogo</button>
+      </div>
+
+      <div>
+        <p>Histórico:</p>
+        <ul id="historico"></ul>
+      </div>
+
+      <script>
+
+        // gera um valor aleátorio
+        var numberRandom = Math.floor(Math.random() * 10 + 1);
+
+        // conta o nmero de palpites
+        // so para palpite correto
+        var historico = [];
+        var tentativas = 0;
+        var pontuacao = 0;
+        var erro = 0;
+
+        document.getElementById("enviarchute").onclick = function () {
+
+          // numero do palpite do usuario   
+          var chute = document.getElementById("euacho").value;
+          tentativas++;
+
+          if (chute == numberRandom) {
+            fnVitoria();
+          }
+          else {
+            fnErro(chute);
+          }
+        }
+
+        function fnVitoria() {
+          ++pontuacao;
+
+          document.getElementById("pontuacao").innerHTML = pontuacao;
+          document.getElementById("resultado").innerHTML = "PARABÉNS!";
+
+          document.getElementById("novoJogo").style.display = "block";
+
+          fnSalvaHistorico();
+        }
+
+        function fnErro(chute) {
+          ++erro;
+
+          document.getElementById("erros").innerHTML = erro;
+
+          if (chute > numberRandom) {
+            document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MENOR";
+          }
+          else {
+            document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MAIOR"
+          }
+        }
+
+        function fnNovoJogo() {
+          numberRandom = Math.floor(Math.random() * 10 + 1);
+          tentativas = 0;
+          erro = 0;
+
+          document.getElementById("erros").innerHTML = erro;
+          document.getElementById("euacho").value = "";
+          document.getElementById("resultado").innerHTML = "";
+          document.getElementById("novoJogo").style.display = "none";
+        }
+
+        function fnSalvaHistorico() {
+          historico.push(tentativas);
+          var lista = document.getElementById("historico");
+          lista.innerHTML = "";
+
+          for (var i = 0; i < historico.length; i++) {
+            var item = document.createElement("li");
+            item.innerText = "Você acertou em " + historico[i] + " tentativas.";
+
+            lista.appendChild(item);
+          }
+        }
+      </script>
+    </body>
+
+  </html>
