@@ -11,9 +11,12 @@
 <p>Selecionamos um número aleatório entre 1 e 10. Veja se consegue adivinhar.</p>
   
 <div class="form">
+  <p>pontuação: <span id="pontuacao">0</span></p>
+  <p>Erros:<span id="erros">0</span></p>
   <label for="euacho">Tente a sorte: </label>
-  <input type="text" id="euacho" class="euacho">
+  <input type="text" id="euacho" class="euacho" placeholder="ex:9">
   <input type="submit" value="Enviar palpite" class="enviarchute" id="enviarchute">
+  <p id="resultado"></p>
 </div>
   
 <script>
@@ -24,15 +27,19 @@
     // conta o nmero de palpites
     // so para palpite correto
     var guess = 1;
+    var pontuacao = 0;
       
     document.getElementById("enviarchute").onclick = function(){
       
    // numero do palpite do usuario   
    var chute = document.getElementById("euacho").value;
   
-   if(chute == numberRandom){    
-       alert("PRABÉNS!!! VOCÊ ADIVINHOU O NÚMERO CERTO PELA "
-               + guess + "° VEZ ");
+   if(chute == numberRandom){ 
+   
+   ++pontuacao;
+   
+   document.getElementById("pontuacao").innerHTML
+   = pontuacao ;
    }
    
    
@@ -40,13 +47,13 @@
    /*se o número chutadl for maior que o número real*/ 
    {    
        guess++;
-       alert("OOPS DESCULPA!! TENTE UM NÚMERO MENOR");
+       document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MENOR";
    }
    
    else
    {
        guess++;
-       alert("OOPS DESCULPA!! TENTE UM NÚMERO MAIOR")
+       document.getElementById("resultado").innerHTML = "OOPS! DESCULPA!! TENTE UM NÚMERO MAIOR"
    }
 }
 </script>
